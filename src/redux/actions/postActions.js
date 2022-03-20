@@ -23,22 +23,17 @@ export const fetchPosts = () => async (dispatch) => {
     }
 }
 
-export const createPost = (addPost) => async (dispatch) => {
-    let data = addPost;   
-    let response = await callApi("https://gorest.co.in/public/v2/posts","POST","",data);
-    if(response){
-        dispatch({
-            type:CREATE_POST,
-            payload:response.data
-        })
-    }
-    await fetchPosts(); 
-    // else {
+export const savePost = (post,postType) => async (dispatch) => {
+    let data = post;   
+    let method = postType === "edit" ? "PUT" : "POST"; 
+    await callApi("https://gorest.co.in/public/v2/posts",method,"",data);
+    // if(response){
     //     dispatch({
     //         type:CREATE_POST,
     //         payload:response.data
     //     })
     // }
+    fetchPosts(); 
 }
 
 // export const getTodos = (dispatch) => async (dispatch) => {

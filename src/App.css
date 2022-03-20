@@ -38,6 +38,7 @@
 .main-blk {
   width:100% !important;
   display:inline-flex !important;
+  position: relative;
 }
 .img-blk{
   width:30% !important;
@@ -69,5 +70,5 @@
 }
 .edit-icon{
   position: absolute;
-  right:210px
+  right:100px
 }

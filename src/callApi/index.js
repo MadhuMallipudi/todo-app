@@ -1,7 +1,7 @@
 import axios from "axios";
 import configuVariables from "../config";
 const {accessToken} = configuVariables;
-const callApi = async (url,method,params="",payload={}) => {
+const callApi = async (url,method,payload={}) => {
     let headers = {
         Authorization : `Bearer ${accessToken}` 
     }

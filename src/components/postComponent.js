@@ -1,16 +1,29 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {TextField,Box,Button} from '@mui/material';
-import {createPost} from "../redux/actions/postActions"; 
+import {savePost} from "../redux/actions/postActions"; 
 import { useDispatch,useSelector } from 'react-redux';
 import configuVariables from "../config";
  
-export default function Add() {
+export default function PostComponent(props) {
   const [title,setTitle] = useState("");
   const [body,setBody] = useState("");
   const [titleerror,setTitleError] = useState(false);
   const [descerror,setBodyError] = useState(false);
   const dispatch = useDispatch();
-  const addPost = async () => {
+  const type = props?.type === "edit" ? "Edit" : "Add"  
+
+  useEffect(()=>{
+    console.log("props?.type",props)
+     if(props?.type === "edit"){
+        console.log("props?.type---in",props.postData.title)
+        
+        setTitle(props.postData.title)
+        setBody(props.postData.body)
+     }
+  },[])
+
+
+  const handleSubmit = async () => {
     if(title === ""){
         setTitleError(true)
     } 
@@ -18,7 +31,8 @@ export default function Add() {
         setBodyError(true)
     }
     let data = {user_id:configuVariables.user_id,title,body}
-    await dispatch(createPost(data))
+    // await dispatch(createPost(data))
+    await dispatch(savePost(data,props?.type))
     console.log("rrrr",title,body)
   } 
   return (
@@ -34,6 +48,7 @@ export default function Add() {
           error={titleerror}
           id="outlined-error-helper-text"
           label="Title"
+          value={title}
           onChange={(e)=> {setTitle(e.target.value)}}
           fullWidth
       />
@@ -41,13 +56,14 @@ export default function Add() {
           error={descerror}  
           id="outlined-multiline-flexible"
           label="Description"
+          value={body}
           multiline
           maxRows={4}
           fullWidth
         //   value={"value"}
           onChange={(e)=> {setBody(e.target.value)}}
         />
-         <Button onClick={()=>{addPost()}} sx={{ml:2}} variant="outlined">Add Post</Button>
+         <Button onClick={()=>{handleSubmit()}} sx={{ml:2}} variant="outlined">{type} Post</Button>
     </Box>
   );
 }

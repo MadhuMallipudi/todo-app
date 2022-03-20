@@ -1,9 +1,14 @@
-import * as React from 'react';
+import  React,{useEffect,useState} from 'react';
 import {Button,Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle} from '@mui/material';
-import Add from "../components/add";
+import PostComponent from "../components/postComponent";
 export default function AlertDialog(props) {
-  console.log("props",props.open)
-  const [open, setOpen] = React.useState(props.open);
+  const [open, setOpen] = useState(props.open);
+  const [edit,setEdit] = useState(false)
+  useEffect(()=>{
+      if(props?.postData){
+        setEdit(true);
+      }
+  })  
   const handleClose = () => {
     setOpen(false);
     props.openDialog(false)
@@ -19,10 +24,10 @@ export default function AlertDialog(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
+          {setEdit ? "Edit Post" : "Add Post" }
         </DialogTitle>
         <DialogContent>
-          <Add/>
+          <PostComponent type={edit ?  "edit" : "add"} postData={ props?.postData}/>
         </DialogContent>
         <DialogActions>
           {/* <Button onClick={handleClose}>Disagree</Button>

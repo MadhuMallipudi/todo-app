@@ -1,95 +1,122 @@
-import React,{useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Header from "./common/Header";
 import { useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
-import image from "../assets/images/logo512.png";
-import { Container,Box,Paper, Button,Typography } from '@mui/material';
+import { Container, Box, Paper, Button, Typography, Popover } from '@mui/material';
 import { styled } from "@mui/material/styles";
 import Select from 'react-select'
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import AlertDialog from "../utilities/Modal";
+
 const Posts = () => {
     let mainPosts = useSelector((state) => state.commonReducer.posts);
     let posts = useSelector((state) => state.commonReducer.posts);
-    const [listPosts,setListPosts] = useState(posts);
-    const [selectedPost ,setSelectedPost] = useState("");    
-    const [OpenModel,setOpenModel] = useState(false);
-    useEffect(()=>{
-        if(selectedPost){
-            mainPosts = mainPosts.filter((item,index)=> item.id === selectedPost)
+    const [listPosts, setListPosts] = useState(posts);
+    const [selectedPost, setSelectedPost] = useState("");
+    const [OpenModel, setOpenModel] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [post,setPost] = useState(null);
+    useEffect(() => {
+        if (selectedPost) {
+            mainPosts = mainPosts.filter((item, index) => item.id === selectedPost)
         } else {
-            mainPosts = posts; 
+            mainPosts = posts;
         }
         setListPosts(mainPosts)
-    },[selectedPost,OpenModel])
+    }, [selectedPost, OpenModel])
 
-    // /public/v2/users/100/posts
+    const handleClick = (event,item) => {
+        setAnchorEl(event.currentTarget)
+        setPost(item)
+    }
+
+   
     const postData = () => {
-        return (listPosts || []).map((item,index)=>{
-            return(
+        return (listPosts || []).map((item, index) => {
+            return (
                 <Grid mt={2} key={index} item xs={12} sm={12} md={6} lg={6}>
                     <Box component={'div'}>
-                      <div className='main-blk'>
-                           {/* <div className="img-blk">
-                               <img src={image} width="50px" height="50px" />   
-                           </div> */}
-                           {/* <i>{MoreHorizIcon}</i> */}
-                           <p className="edit-icon"><MoreHorizIcon/></p>
-                           <div className="content-blk">
+                        <div className='main-blk'>
+                            <div className="content-blk">
+                                <p className="edit-icon">
+                                    <MoreVertIcon
+                                        aria-describedby={id}
+                                        onClick={(event) => { handleClick(event,item) }}
+                                    />
+                                </p>
                                 <p className="title"><b>{item.title}</b></p>
-                                <p className="desc">{item.body}</p> 
-                           </div>
-                       </div>
+                                <p className="desc">{item.body}</p>
+                            </div>
+                        </div>
                     </Box>
                 </Grid>
-            )   
+            )
         })
     }
     const options = () => {
-        return (posts||[]).map((ele,index)=>{
-              return {
-                  "value":ele.id,
-                  "label":ele.title
-              }  
+        return (posts || []).map((ele, index) => {
+            return {
+                "value": ele.id,
+                "label": ele.title
+            }
         })
     }
     const handleChange = (e) => {
-        if(e && e?.value)
-        setSelectedPost(e.value);
+        if (e && e?.value)
+            setSelectedPost(e.value);
     }
     const openDialog = (OpenModel) => {
         setOpenModel(OpenModel);
     }
-    console.log("OpenModel",OpenModel)
-    return(
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
+    console.log("OpenModel", OpenModel)
+    return (
         <>
-            <Header/>
+            <Header />
             <Container>
-            {OpenModel && <AlertDialog openDialog={openDialog} open={OpenModel}/>}
-            {  posts ? 
-                <>
-                    <div className='blk'>
-                        <div className='select-blk'>
-                            <Select 
-                                options={options()} 
-                                isClearable={true}
-                                onChange={(e)=> {handleChange(e)}}
-                            />
+                {OpenModel && <AlertDialog postData={post} openDialog={openDialog} open={OpenModel} />}
+                {posts ?
+                    <>
+                        <div className='blk'>
+                            <div className='select-blk'>
+                                <Select
+                                    options={options()}
+                                    isClearable={true}
+                                    onChange={(e) => { handleChange(e) }}
+                                />
+                            </div>
+                            <div className='btn-blk'>
+                                <Button variant="outlined" onClick={() => setSelectedPost("")}>Show All</Button>
+                                <Button sx={{ ml: 2 }} variant="outlined" onClick={() => { setOpenModel(true) }}>Add Post</Button>
+                            </div>
                         </div>
-                        <div className='btn-blk'>    
-                            <Button variant="outlined" onClick={()=> setSelectedPost("")}>Show All</Button>
-                            <Button sx={{ml:2}} variant="outlined" onClick={()=> {setOpenModel(true)} }>Add Post</Button>
-                        </div>    
+                        <Grid container sx={{ flexGrow: 1 }}>
+                            {postData()}
+                        </Grid>
+                        <Popover
+                            id={id}
+                            open={open}
+                            anchorEl={anchorEl}
+                            onClose={()=>{setAnchorEl(null)}}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                        >
+                            <Typography sx={{ p: 2,cursor:"pointer" }}><ModeEditIcon onClick={()=>{setOpenModel(true)}}/> </Typography>
+                            <Typography sx={{ p: 2,cursor:"pointer" }}><VisibilityIcon/></Typography>
+                            <Typography sx={{ p: 2,cursor:"pointer" }}><DeleteIcon/></Typography>
+                        </Popover>
+                    </>
+                    :
+                    <div>
+                        <h3>No Posts Fond</h3>
                     </div>
-                    <Grid container sx={{ flexGrow: 1 }}>
-                        {postData()}
-                    </Grid>
-                </>
-                :
-                <div>
-                    <h3>No Posts Fond</h3>
-                </div>
-            }
+                }
             </Container>
         </>
     )
