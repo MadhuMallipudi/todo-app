@@ -24,7 +24,7 @@ export default function AlertDialog(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {setEdit ? "Edit Post" : "Add Post" }
+          {edit ? "Edit Post" : "Add Post" }
         </DialogTitle>
         <DialogContent>
           <PostComponent type={edit ?  "edit" : "add"} postData={ props?.postData}/>

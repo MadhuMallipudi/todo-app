@@ -1,4 +1,4 @@
-import { FETCH_POSTS, FETCH_TODOS, FETCH_COMMENTS,CREATE_POST } from "../constants";
+import { FETCH_POSTS, FETCH_TODOS, FETCH_COMMENTS } from "../constants";
 import { callApi } from "../../callApi";
 
 export const fetchPosts = () => async (dispatch) => {
@@ -24,18 +24,7 @@ export const fetchPosts = () => async (dispatch) => {
 }
 
 export const savePost = (post,postType) => async (dispatch) => {
-    let data = post;   
     let method = postType === "edit" ? "PUT" : "POST"; 
-    await callApi("https://gorest.co.in/public/v2/posts",method,"",data);
-    // if(response){
-    //     dispatch({
-    //         type:CREATE_POST,
-    //         payload:response.data
-    //     })
-    // }
+    await callApi("https://gorest.co.in/public/v2/posts",method,post);
     fetchPosts(); 
 }
-
-// export const getTodos = (dispatch) => async (dispatch) => {
-//     let response = awa
-// } 

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Header from "./common/Header";
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import { Container, Box, Paper, Button, Typography, Popover } from '@mui/material';
 import { styled } from "@mui/material/styles";
@@ -10,20 +10,25 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import AlertDialog from "../utilities/Modal";
-
+import {fetchPosts} from "../redux/actions/postActions";
 const Posts = () => {
     let mainPosts = useSelector((state) => state.commonReducer.posts);
     let posts = useSelector((state) => state.commonReducer.posts);
-    const [listPosts, setListPosts] = useState(posts);
+    // const [listPosts, setListPosts] = useState(posts);
+    const [listPosts, setListPosts] = useState([]);
     const [selectedPost, setSelectedPost] = useState("");
     const [OpenModel, setOpenModel] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const [post,setPost] = useState(null);
-    useEffect(() => {
+    const dispatchAction = useDispatch();
+    useEffect(async () => {
         if (selectedPost) {
-            mainPosts = mainPosts.filter((item, index) => item.id === selectedPost)
+            mainPosts = mainPosts.filter((item) => item.id === selectedPost)
         } else {
             mainPosts = posts;
+        }
+        if(posts && posts.length){
+            await dispatchAction(fetchPosts())
         }
         setListPosts(mainPosts)
     }, [selectedPost, OpenModel])
@@ -79,7 +84,7 @@ const Posts = () => {
             <Header />
             <Container>
                 {OpenModel && <AlertDialog postData={post} openDialog={openDialog} open={OpenModel} />}
-                {posts ?
+                {(posts && posts.length) ?
                     <>
                         <div className='blk'>
                             <div className='select-blk'>

@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import {useNavigate} from 'react-router-dom';
-
+import HomeIcon from '@mui/icons-material/Home';
 const Header = () => {
     const navigate = useNavigate();
   return (
@@ -21,7 +21,7 @@ const Header = () => {
             aria-label="menu"
             sx={{ mr: 2 }}
           >
-            <MenuIcon />
+            <HomeIcon onClick={()=>{navigate("/")}} />
           </IconButton>
             <Button color="inherit" onClick={()=>{navigate("/posts")}}>Posts</Button>
         </Toolbar>

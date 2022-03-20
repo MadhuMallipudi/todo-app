@@ -17,14 +17,15 @@ const Home = () => {
     return (
         <>
             <Header/>
-            <Container maxWidth="sm">
+            <Container maxWidth="sm" sx={{mt:5}}>
                 <Box
                     sx={{
                         display:"flex",
                         '& > : not(style)':{
-                            m:1,
+                            m:3,
                             width:128,
-                            height:128
+                            height:128,
+                            textAlign:"center"
                         },
                     }}
                    >

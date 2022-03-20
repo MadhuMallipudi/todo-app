@@ -4,4 +4,4 @@ const configuVariables = {
     "user_id":3929
 }
 
-export  default configuVariables;
+export default configuVariables;
