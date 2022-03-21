@@ -106,3 +106,7 @@
 .cmn-sec{
   color: burlywood;
 }
+.btn-right{
+  text-align: right;
+  margin-top: 10px;
+}

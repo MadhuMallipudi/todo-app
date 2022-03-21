@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { TextField, Box, Button } from '@mui/material';
 import { savePost,fetchPosts } from "../../redux/actions/commonAction";
 import { useDispatch, useSelector } from 'react-redux';
-import configuVariables from "../../config";
 
 export default function PostComponent(props) {
   const [title, setTitle] = useState("");

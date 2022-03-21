@@ -5,7 +5,6 @@ const ViewComponent = (props) => {
     const data = props?.postData
     const all_comments = useSelector((state)=> state.commonReducer.comments);
     const postComments = (all_comments || []).filter((item)=> item.post_id === props.postData.id)
-    console.log("postComments",postComments)
     const comments = postComments.map((item)=>{
         return(
             <div className='cmnt-show-blk'>

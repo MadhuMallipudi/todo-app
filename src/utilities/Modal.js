@@ -1,8 +1,10 @@
 import  React,{useEffect,useState} from 'react';
-import {Button,Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle} from '@mui/material';
+import {Button,Dialog,DialogActions,DialogContent,DialogTitle} from '@mui/material';
 import PostComponent from "../components/posts/postComponent";
 import ViewComponent from '../components/posts/viewComponent';
 import DeleteComponent from '../components/posts/deleteComponent';
+import TodoComponent from "../components/todos/TodoComponent";
+import DeleteTodoComponent from "../components/todos/deleteComponent";
 export default function AlertDialog(props) {
   const [open, setOpen] = useState(props.open);
   const [edit,setEdit] = useState(false)
@@ -16,7 +18,7 @@ export default function AlertDialog(props) {
     setOpen(false);
     props.openDialog(false)
   };
-
+  console.log("todo-type",type)
   const getComponent = (type) => {
     switch (type) {
         case "add":
@@ -27,6 +29,12 @@ export default function AlertDialog(props) {
             return <ViewComponent postData={ props?.postData}/>
         case "delete": 
             return  <DeleteComponent refresh={props.refresh} handleClose={handleClose} postData={ props?.postData}/>   
+       
+        case "add todo":
+            return <TodoComponent handleClose={handleClose} type={type} postData={ props?.postData}/>
+        case "delete todo": 
+            return  <DeleteTodoComponent refresh={props.refresh} handleClose={handleClose} postData={ props?.postData}/>   
+                 
         default:
             break;
     }

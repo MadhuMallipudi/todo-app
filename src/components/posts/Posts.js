@@ -26,14 +26,14 @@ const Posts = () => {
     const [comment, setComment] = useState("");
     const [refreshComp,setRefreshComp] = useState(false);
     const dispatchAction = useDispatch();
-    useEffect(async () => {
+    useEffect(() => {
         if (selectedPost) {
             mainPosts = mainPosts.filter((item) => item.id === selectedPost)
         } else {
             mainPosts = posts;
         }
-        await dispatchAction(fetchUser());
-        await dispatchAction(fetchPosts())
+        dispatchAction(fetchUser());
+        dispatchAction(fetchPosts())
         setListPosts(mainPosts)
     }, [selectedPost, OpenModel,refreshComp])
 
@@ -135,6 +135,7 @@ const Posts = () => {
                         <Grid container sx={{ flexGrow: 1 }}>
                             {postData()}
                         </Grid>
+
                         <Popover
                             id={id}
                             open={open}

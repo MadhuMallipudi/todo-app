@@ -2,10 +2,8 @@ import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import {useNavigate} from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 const Header = () => {
@@ -24,6 +22,7 @@ const Header = () => {
             <HomeIcon onClick={()=>{navigate("/")}} />
           </IconButton>
             <Button color="inherit" onClick={()=>{navigate("/posts")}}>Posts</Button>
+            <Button color="inherit" onClick={()=>{navigate("/todos")}}>ToDos</Button>
         </Toolbar>
       </AppBar>
     </Box>

@@ -62,6 +62,31 @@ export const savePost = (post, postType) => async (dispatch) => {
     let url = postType === "edit" ? `${baseUrl}/public/v2/posts/${post.post_id}` : `${baseUrl}/public/v2/posts`
     await callApi(url, method, post);
 }
+export const saveTodo = (todo) => async (dispatch) => {
+    await callApi(`${baseUrl}/public/v2/todos`, "POST", todo);
+}
+export const deleteTodo = (todoID) => async (dispatch) => {
+    await callApi(`${baseUrl}/public/v2/todos/${todoID}`, "DELETE", "");
+    dispatch({
+        type: "DELETE_TODO",
+        payload: { message: `${todoID} deleted successfully` }
+    })
+}
+export const getTodos = () => async (dispatch) => {
+    let response = await callApi(`${baseUrl}/public/v2/todos`, "GET", "", "");
+    if (response) {
+        dispatch({
+            type: FETCH_TODOS,
+            payload: response.data
+        })
+    } else {
+        dispatch({
+            type: FETCH_TODOS,
+            payload: []
+        })
+    }
+}
+
 
 export const deletePost = (postID) => async (dispatch) => {
     await callApi(`${baseUrl}/public/v2/posts/${postID}`, "DELETE", "");
