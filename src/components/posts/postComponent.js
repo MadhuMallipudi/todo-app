@@ -1,24 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { TextField, Box, Button } from '@mui/material';
-import { savePost } from "../redux/actions/postActions";
+import { savePost,fetchPosts } from "../../redux/actions/commonAction";
 import { useDispatch, useSelector } from 'react-redux';
-import configuVariables from "../config";
+import configuVariables from "../../config";
 
 export default function PostComponent(props) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [titleerror, setTitleError] = useState(false);
   const [descerror, setBodyError] = useState(false);
+  let userInfo = useSelector((state)=>state.commonReducer.userInfo)
   const dispatch = useDispatch();
   const type = props?.type === "edit" ? "Edit" : "Add"
 
   useEffect(() => {
-    console.log("props?.type", props)
     if (props?.type === "edit") {
-      console.log("props?.type---in", props.postData.title)
-
-      setTitle(props.postData.title)
-      setBody(props.postData.body)
+      setTitle(props?.postData?.title)
+      setBody(props?.postData?.body)
     }
   }, [])
 
@@ -30,8 +28,13 @@ export default function PostComponent(props) {
     if (body === "") {
       setBodyError(true)
     }
-    let data = { user_id: configuVariables.user_id, title, body }
+    let data = { user_id: userInfo.userInfo.id, title, body }
+    if(props?.postData?.id){
+      data["post_id"] = props?.postData?.id;
+    }
     await dispatch(savePost(data, props?.type))
+    await dispatch(fetchPosts());
+    props.handleClose();
   }
   return (
     <Box
@@ -58,7 +61,6 @@ export default function PostComponent(props) {
         multiline
         maxRows={4}
         fullWidth
-        //   value={"value"}
         onChange={(e) => { setBody(e.target.value) }}
       />
       <Button onClick={() => { handleSubmit() }} sx={{ ml: 2 }} variant="outlined">{type} Post</Button>

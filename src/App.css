@@ -72,3 +72,37 @@
   position: absolute;
   right:100px
 }
+.captilizeText {
+  text-transform: capitalize;
+}
+.cmnt{
+  color: #3bb3cf;
+  font-weight: bold;
+  font-size: 12px;
+}
+.cmnt-blk{
+  position: relative;
+}
+.cmnt-blk span{
+  position: absolute;
+  top:18px;
+}
+.cmnt-show-blk{
+  background: aliceblue;
+  border-left: 3px solid #b97d7d;
+  padding: 15px;
+  margin-top: 5px;
+}
+.cmnt-show-blk p {
+  font-size: 15px;
+  margin:0;
+}
+.cmnt-show-blk i {
+  font-size: 12px;
+}
+.text-center{
+  text-align: center;
+}
+.cmn-sec{
+  color: burlywood;
+}

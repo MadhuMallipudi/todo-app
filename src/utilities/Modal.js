@@ -1,18 +1,36 @@
 import  React,{useEffect,useState} from 'react';
 import {Button,Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle} from '@mui/material';
-import PostComponent from "../components/postComponent";
+import PostComponent from "../components/posts/postComponent";
+import ViewComponent from '../components/posts/viewComponent';
+import DeleteComponent from '../components/posts/deleteComponent';
 export default function AlertDialog(props) {
   const [open, setOpen] = useState(props.open);
   const [edit,setEdit] = useState(false)
+  const type = props.type; 
   useEffect(()=>{
       if(props?.postData){
         setEdit(true);
       }
-  })  
+  },[edit,props.postData])  
   const handleClose = () => {
     setOpen(false);
     props.openDialog(false)
   };
+
+  const getComponent = (type) => {
+    switch (type) {
+        case "add":
+          return <PostComponent handleClose={handleClose} type={type} postData={ props?.postData}/>
+        case "edit":   
+          return <PostComponent handleClose={handleClose} type={type} postData={ props?.postData}/>
+        case "view":
+            return <ViewComponent postData={ props?.postData}/>
+        case "delete": 
+            return  <DeleteComponent refresh={props.refresh} handleClose={handleClose} postData={ props?.postData}/>   
+        default:
+            break;
+    }
+  }
 
   return (
     <div>
@@ -24,14 +42,13 @@ export default function AlertDialog(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {edit ? "Edit Post" : "Add Post" }
+         <span className='captilizeText'>{type}</span>
         </DialogTitle>
         <DialogContent>
-          <PostComponent type={edit ?  "edit" : "add"} postData={ props?.postData}/>
+            {getComponent(type)}
         </DialogContent>
         <DialogActions>
-          {/* <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleClose} autoFocus>Agree</Button> */}
+           <Button onClick={handleClose}>Close</Button>
         </DialogActions>
       </Dialog>
     </div>

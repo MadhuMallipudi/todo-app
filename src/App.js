@@ -1,6 +1,6 @@
 import './App.css';
 import Home from "./components/Home";
-import Posts from "./components/Posts";
+import Posts from "./components/posts/Posts";
 import {BrowserRouter as Router,Routes,Route} from "react-router-dom";
 
 function App() {

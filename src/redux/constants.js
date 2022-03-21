@@ -6,3 +6,4 @@ export const CREATE_POST = "CREATE_POST";
 export const EDIT_POST = "EDIT_POST";
 export const DELETE_POST = "DELETE_POST";
 export const GET_COUNTS = "GET_COUNTS";   
+export const FETCH_USER = "FETCH_USER";

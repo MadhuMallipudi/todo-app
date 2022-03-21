@@ -4,7 +4,7 @@ import React,{useEffect} from 'react';
 import { Container,Box,Paper} from '@mui/material';
 import Header from "./common/Header";
 import { useDispatch,useSelector } from 'react-redux'
-import {fetchPosts} from "../redux/actions/postActions";
+import {fetchPosts} from "../redux/actions/commonAction";
 const Home = () => {
     const postsCount = useSelector((state) => state.commonReducer.postsCount);
     const todosCount = useSelector((state) => state.commonReducer.todosCount);
