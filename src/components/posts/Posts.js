@@ -46,7 +46,6 @@ const Posts = () => {
         setCommentPost(item)
     }
     const handleChangeComment = (e, item) => {
-        console.log("item",item)
         let commentPayload = { post_id: item.id, body: e.target.value,email:userInfo?.userInfo?.email,name:userInfo?.userInfo?.name }
         setComment(commentPayload);
     }

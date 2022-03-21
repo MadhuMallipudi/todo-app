@@ -9,7 +9,6 @@ const Home = () => {
     const postsCount = useSelector((state) => state.commonReducer.postsCount);
     const todosCount = useSelector((state) => state.commonReducer.todosCount);
     const commentsCount = useSelector((state) => state.commonReducer.commentsCount);
-    console.log("postsCount",postsCount)
     let dispatchAction = useDispatch();
     useEffect(async()=>{
          await dispatchAction(fetchPosts())

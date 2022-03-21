@@ -18,7 +18,6 @@ export default function AlertDialog(props) {
     setOpen(false);
     props.openDialog(false)
   };
-  console.log("todo-type",type)
   const getComponent = (type) => {
     switch (type) {
         case "add":

@@ -6,7 +6,6 @@ const DeleteComponent = (props) => {
     const post_id = props?.postData?.id
     const dispatchAction = useDispatch();
     const removeTodo = async () => {
-        console.log("removePost")
         await dispatchAction(deleteTodo(post_id));
         await props.handleClose();
         await dispatchAction(getTodos());
